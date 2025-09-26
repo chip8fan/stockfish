@@ -32,14 +32,4 @@ class Stockfish():
                     best_moves.append(move[0])
             return random.choice(best_moves)
         else:
-            best_moves = []
-            for move in board.legal_moves:
-                board.push(move)
-                evaluation = self.convert(-engine.analyse(board, chess.engine.Limit(time=time_limit))["score"].relative)
-                if evaluation == 100000:
-                    best_moves.append(move)
-                board.pop()
-            engine.quit()
-            if len(best_moves) == 0:
-                return random.choice(list(board.legal_moves))
-            return random.choice(best_moves)
+            return engine.play(board, chess.engine.Limit(time=time_limit)).move
